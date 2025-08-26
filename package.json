@@ -1,0 +1,21 @@
+{
+  "name": "whatsapp-message-scheduler",
+  "version": "1.0.0",
+  "description": "WhatsApp Message Scheduler is a simple app that allows users to schedule and send automated WhatsApp messages at a configured day and time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ensarhamzic/whatsapp-message-scheduler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ensarhamzic/whatsapp-message-scheduler/issues"
+  },
+  "homepage": "https://github.com/ensarhamzic/whatsapp-message-scheduler#readme"
+}
