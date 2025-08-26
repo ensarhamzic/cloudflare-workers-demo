@@ -39,7 +39,7 @@ async function sendMessage() {
   const formattedTime = formatNowSrRS();
   const body = {
     phone: TARGET,
-    message: `Automated message sent on: ${formattedTime}`,
+    message: `v2: Automated message sent on: ${formattedTime}`,
   };
 
   try {
@@ -135,5 +135,8 @@ process.on("SIGTERM", () => shutdown("SIGTERM"));
 
 const server = app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
-  startScheduler();
+
+  setTimeout(() => {
+    startScheduler();
+  }, 30 * 1000);
 });
