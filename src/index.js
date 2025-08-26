@@ -10,10 +10,6 @@ const PASSWORD = process.env.WP_SERVER_PASSWORD;
 const url = `${BASE_URL}/send/message`;
 
 async function sendMessage() {
-  console.log("base url:", BASE_URL);
-  console.log("username:", USERNAME);
-  console.log("password:", PASSWORD);
-
   const now = new Date();
   const formattedTime = now
     .toLocaleString("sr-RS", {
