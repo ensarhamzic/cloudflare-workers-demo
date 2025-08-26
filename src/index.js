@@ -10,6 +10,7 @@ const BASE_URL = process.env.WP_SERVER_BASE_URL;
 const USERNAME = process.env.WP_SERVER_USERNAME;
 const PASSWORD = process.env.WP_SERVER_PASSWORD;
 const TARGET = process.env.WP_TARGET || "120363403131187763@g.us";
+const intervalMs = 5 * 60 * 1000;
 
 const url = `${BASE_URL.replace(/\/$/, "")}/send/message`;
 
@@ -60,9 +61,6 @@ async function sendMessage() {
 
 function startScheduler() {
   if (running) return;
-
-  const intervalMs = 60_000;
-
   intervalId = setInterval(() => {
     void sendMessage();
   }, intervalMs);
@@ -99,7 +97,7 @@ app.get("/status", (_req, res) => {
     ok: true,
     running,
     mode: "interval",
-    intervalMs: 60000,
+    intervalMs: intervalMs,
     lastSentAt: lastSentAt ? lastSentAt.toISOString() : null,
     lastSentAtLocal: lastSentAt ? formatNowSrRS(lastSentAt) : null,
     lastError: lastError || null,
