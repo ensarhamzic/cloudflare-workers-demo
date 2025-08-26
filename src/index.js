@@ -13,7 +13,7 @@ const TARGET = process.env.WP_TARGET || "120363403131187763@g.us";
 
 const url = `${BASE_URL.replace(/\/$/, "")}/send/message`;
 
-function formatNowSrRS(date = new Date()) {
+function formatTime(date = new Date()) {
   return date
     .toLocaleString("sr-RS", {
       day: "2-digit",
@@ -29,10 +29,10 @@ function formatNowSrRS(date = new Date()) {
 }
 
 async function sendMessage() {
-  const formattedTime = formatNowSrRS();
+  const formattedTime = formatTime();
   const body = {
     phone: TARGET,
-    message: `v2: Automated message sent on: ${formattedTime}`,
+    message: `v3: Automated message sent on: ${formattedTime}`,
   };
 
   try {
@@ -52,9 +52,13 @@ async function sendMessage() {
 
 const app = express();
 
-app.get("/send-message", async (_req, res) => {
-  const result = await sendMessage();
-  res.status(result.ok ? 200 : 500).json(result);
+app.post("/send-message", async (req, res) => {
+  try {
+    const result = await sendMessage();
+    res.status(result.ok ? 200 : 500).json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
+  }
 });
 
 app.listen(PORT, () => {
