@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const dotenv = require("dotenv");
+const cron = require("node-cron");
 
 dotenv.config();
 
@@ -58,4 +59,9 @@ app.get("/send-message", async (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
+});
+
+cron.schedule("* * * * *", () => {
+  console.log("⏳ Pokrećem cron job...");
+  sendMessage();
 });
