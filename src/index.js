@@ -62,9 +62,6 @@ async function sendMessageEndpointHandler(req, res) {
 }
 
 app.post("/send-message", sendMessageEndpointHandler);
-app.post("/", sendMessageEndpointHandler);
-app.get("/send-message", sendMessageEndpointHandler);
-app.get("/", sendMessageEndpointHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
