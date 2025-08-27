@@ -6,5 +6,11 @@
       "src": "/(.*)",
       "dest": "src/index.js"
     }
+  ],
+  "crons": [
+    {
+      "path": "/send-message",
+      "schedule": "15 9 * * *"
+    }
   ]
 }
