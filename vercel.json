@@ -10,7 +10,7 @@
   "crons": [
     {
       "path": "/send-message",
-      "schedule": "15 9 * * *"
+      "schedule": "23 7 * * *"
     }
   ]
 }
