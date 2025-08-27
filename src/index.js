@@ -52,14 +52,19 @@ async function sendMessage() {
 
 const app = express();
 
-app.post("/send-message", async (req, res) => {
+async function sendMessageEndpointHandler(req, res) {
   try {
     const result = await sendMessage();
     res.status(result.ok ? 200 : 500).json(result);
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
   }
-});
+}
+
+app.post("/send-message", sendMessageEndpointHandler);
+app.post("/", sendMessageEndpointHandler);
+app.get("/send-message", sendMessageEndpointHandler);
+app.get("/", sendMessageEndpointHandler);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server listening on port ${PORT}`);
