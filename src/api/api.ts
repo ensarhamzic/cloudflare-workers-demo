@@ -1,13 +1,10 @@
-// src/api.ts
-
 export interface Env {
-  WP_SERVER_BASE_URL: string; // npr. https://tvoj-wp-server.com
-  WP_SERVER_USERNAME: string; // basic auth user
-  WP_SERVER_PASSWORD: string; // basic auth pass
-  WORKER_AUTH_KEY: string; // shared secret for basic auth with CRON worker
+  WP_SERVER_BASE_URL: string;
+  WP_SERVER_USERNAME: string;
+  WP_SERVER_PASSWORD: string;
+  WORKER_AUTH_KEY: string;
 }
 
-// Format "dd.mm.yyyy HH:MM:SS" u Europe/Belgrade (kao u tvom kodu)
 function formatTime(date = new Date()) {
   return new Intl.DateTimeFormat("sr-RS", {
     day: "2-digit",
@@ -23,19 +20,15 @@ function formatTime(date = new Date()) {
     .replace(",", "");
 }
 
-// Bezbedan Basic auth header
 function basicAuth(user: string, pass: string) {
   return "Basic " + btoa(`${user}:${pass}`);
 }
 
-// Glavna funkcija — ekvivalent tvom sendMessage()
 async function runTask(env: Env) {
   const nowISO = new Date().toISOString();
   console.log(`[runTask] started @ ${nowISO}`);
 
-  // Validacija env varijabli (umesto dotenv fajla)
   const { WP_SERVER_BASE_URL, WP_SERVER_USERNAME, WP_SERVER_PASSWORD } = env;
-  console.log("Using WP_SERVER_BASE_URL:", WP_SERVER_BASE_URL);
   if (!WP_SERVER_BASE_URL || !WP_SERVER_USERNAME || !WP_SERVER_PASSWORD) {
     const msg =
       "Missing required env vars (WP_SERVER_BASE_URL, WP_SERVER_USERNAME, WP_SERVER_PASSWORD)";
@@ -51,7 +44,6 @@ async function runTask(env: Env) {
     message: `cloudflare worker: Automated message sent on: ${formatTime()}`,
   };
 
-  // Timeout 30s (kao axios { timeout: 30000 })
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30_000);
 
@@ -92,12 +84,9 @@ async function runTask(env: Env) {
 }
 
 export default {
-  // Ručni trigger (ekvivalent Express POST /send-message).
-  // Ostavio sam i GET i POST na /run da bude lako testirati.
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
     if (url.pathname === "/run") {
-      // 🔒 Autentifikacija: očekujemo Authorization: Bearer <WORKER_AUTH_KEY>
       const authHeader = req.headers.get("Authorization");
       if (authHeader !== `Bearer ${env.WORKER_AUTH_KEY}`) {
         return new Response("Forbidden", { status: 403 });

@@ -1,14 +1,10 @@
-// src/cron.ts
-
 export interface Env {
-  API: Fetcher; // service binding ka API workeru
-  WORKER_AUTH_KEY: string; // isti secret kao u API workeru
+  API: Fetcher;
+  WORKER_AUTH_KEY: string;
 }
 
 export default {
   async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
-    console.log("CRON triggered");
-
     const res = await env.API.fetch("https://internal/run", {
       method: "POST",
       headers: {
