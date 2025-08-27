@@ -39,7 +39,7 @@ async function sendMessage() {
     const response = await axios.post(url, body, {
       auth: { username: USERNAME, password: PASSWORD },
       headers: { "Content-Type": "application/json" },
-      timeout: 15000,
+      timeout: 30000,
     });
     console.log("✅ Message sent:", response.data);
     return { ok: true, data: response.data };
@@ -52,7 +52,7 @@ async function sendMessage() {
 
 const app = express();
 
-app.get("/send-message", async (req, res) => {
+app.post("/send-message", async (req, res) => {
   try {
     const result = await sendMessage();
     res.status(result.ok ? 200 : 500).json(result);
