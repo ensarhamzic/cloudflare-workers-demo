@@ -4,6 +4,7 @@ export interface Env {
   WP_SERVER_BASE_URL: string; // npr. https://tvoj-wp-server.com
   WP_SERVER_USERNAME: string; // basic auth user
   WP_SERVER_PASSWORD: string; // basic auth pass
+  WORKER_AUTH_KEY: string; // shared secret for basic auth with CRON worker
 }
 
 // Format "dd.mm.yyyy HH:MM:SS" u Europe/Belgrade (kao u tvom kodu)
@@ -96,6 +97,12 @@ export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
     if (url.pathname === "/run") {
+      // 🔒 Autentifikacija: očekujemo Authorization: Bearer <WORKER_AUTH_KEY>
+      const authHeader = req.headers.get("Authorization");
+      if (authHeader !== `Bearer ${env.WORKER_AUTH_KEY}`) {
+        return new Response("Forbidden", { status: 403 });
+      }
+
       const result = await runTask(env);
       return Response.json(result, { status: result.ok ? 200 : 500 });
     }
