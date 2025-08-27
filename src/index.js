@@ -52,7 +52,7 @@ async function sendMessage() {
 
 const app = express();
 
-app.post("/send-message", async (req, res) => {
+app.get("/send-message", async (req, res) => {
   try {
     const result = await sendMessage();
     res.status(result.ok ? 200 : 500).json(result);
