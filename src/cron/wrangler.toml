@@ -5,7 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [triggers]
 # svakog minuta (stavi */5 za na 5 min)
-crons = ["* * * * *"]
+crons = ["*/5 * * * *"]
 
 # Service binding: CRON → API
 [[services]]

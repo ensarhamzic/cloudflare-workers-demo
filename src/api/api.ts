@@ -1,47 +1,106 @@
 // src/api.ts
 
-// Tipično izvučeš konfiguracije iz env-a (sekreti, D1, KV...)
 export interface Env {
-  // npr. EMAIL_API_KEY: string;
+  WP_SERVER_BASE_URL: string; // npr. https://tvoj-wp-server.com
+  WP_SERVER_USERNAME: string; // basic auth user
+  WP_SERVER_PASSWORD: string; // basic auth pass
 }
 
+// Format "dd.mm.yyyy HH:MM:SS" u Europe/Belgrade (kao u tvom kodu)
+function formatTime(date = new Date()) {
+  return new Intl.DateTimeFormat("sr-RS", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZone: "Europe/Belgrade",
+  })
+    .format(date)
+    .replace(",", "");
+}
+
+// Bezbedan Basic auth header
+function basicAuth(user: string, pass: string) {
+  return "Basic " + btoa(`${user}:${pass}`);
+}
+
+// Glavna funkcija — ekvivalent tvom sendMessage()
 async function runTask(env: Env) {
-  // <<< OVO JE TVOJA LOGIKA >>>
-  // Ovde stavi šta god je tvoj "cron posao":
-  // - čišćenje baze (D1/KV/R2)
-  // - slanje e-mailova
-  // - sinhronizacija podataka
-  // - bilo šta što si ranije radio u Node cronu
+  const nowISO = new Date().toISOString();
+  console.log(`[runTask] started @ ${nowISO}`);
 
-  // primer:
-  const now = new Date().toISOString();
-  console.log(`[runTask] started @ ${now}`);
-  // ... tvoj posao ...
-  // ako nešto pođe po zlu, baci Error
-  return { ok: true, at: now };
+  // Validacija env varijabli (umesto dotenv fajla)
+  const { WP_SERVER_BASE_URL, WP_SERVER_USERNAME, WP_SERVER_PASSWORD } = env;
+  console.log("Using WP_SERVER_BASE_URL:", WP_SERVER_BASE_URL);
+  if (!WP_SERVER_BASE_URL || !WP_SERVER_USERNAME || !WP_SERVER_PASSWORD) {
+    const msg =
+      "Missing required env vars (WP_SERVER_BASE_URL, WP_SERVER_USERNAME, WP_SERVER_PASSWORD)";
+    console.error("❌", msg);
+    return { ok: false, error: msg };
+  }
+
+  const base = WP_SERVER_BASE_URL.replace(/\/$/, "");
+  const url = `${base}/send/message`;
+
+  const body = {
+    phone: "120363403131187763@g.us",
+    message: `cloudflare worker: Automated message sent on: ${formatTime()}`,
+  };
+
+  // Timeout 30s (kao axios { timeout: 30000 })
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30_000);
+
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: basicAuth(WP_SERVER_USERNAME, WP_SERVER_PASSWORD),
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    const text = await res.text().catch(() => "");
+    let data: any = text;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      /* ostavi text ako nije JSON */
+    }
+
+    if (!res.ok) {
+      console.error("❌ Error sending message:", data || res.status);
+      return { ok: false, error: data || `HTTP ${res.status}` };
+    }
+
+    console.log("✅ Message sent:", data);
+    return { ok: true, data };
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    const lastError = err?.message || String(err);
+    console.error("❌ Error sending message:", lastError);
+    return { ok: false, error: lastError };
+  }
 }
 
-// Exportujemo tako da ga CRON worker može zvati kao interni service
 export default {
-  // Opcioni HTTP endpoint da ga i ručno pozoveš (POST/GET /run)
+  // Ručni trigger (ekvivalent Express POST /send-message).
+  // Ostavio sam i GET i POST na /run da bude lako testirati.
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
     if (url.pathname === "/run") {
-      try {
-        const result = await runTask(env);
-        return Response.json(result);
-      } catch (err: any) {
-        return new Response(`runTask error: ${err?.message || err}`, {
-          status: 500,
-        });
-      }
+      const result = await runTask(env);
+      return Response.json(result, { status: result.ok ? 200 : 500 });
     }
     return new Response("Not found", { status: 404 });
   },
-
-  // (OPCIJA) Ako želiš da CRON poziva direktno funkciju bez HTTP-a,
-  // mogao bi i da izvezeš named handler i da ga pozoveš preko module do module,
-  // ali service binding .fetch je sasvim OK i najjednostavniji.
 };
 
-export { runTask }; // korisno za eventualne unit testove
+export { runTask };
