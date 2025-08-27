@@ -1,0 +1,13 @@
+name = "cron-worker"
+main = "cron.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+# svakog minuta (stavi */5 za na 5 min)
+crons = ["* * * * *"]
+
+# Service binding: CRON → API
+[[services]]
+binding = "API"          # ovo ćeš koristiti kao env.API u kodu
+service = "api-worker"   # ime iz api/wrangler.toml

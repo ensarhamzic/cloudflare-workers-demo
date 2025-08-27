@@ -1,7 +1,7 @@
 var __defProp = Object.defineProperty;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
 
-// node_modules/unenv/dist/runtime/_internal/utils.mjs
+// ../../node_modules/unenv/dist/runtime/_internal/utils.mjs
 // @__NO_SIDE_EFFECTS__
 function createNotImplementedError(name) {
   return new Error(`[unenv] ${name} is not implemented yet!`);
@@ -26,7 +26,7 @@ function notImplementedClass(name) {
 }
 __name(notImplementedClass, "notImplementedClass");
 
-// node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/perf_hooks/performance.mjs
 var _timeOrigin = globalThis.performance?.timeOrigin ?? Date.now();
 var _performanceNow = globalThis.performance?.now ? globalThis.performance.now.bind(globalThis.performance) : () => Date.now() - _timeOrigin;
 var nodeTiming = {
@@ -264,7 +264,7 @@ var PerformanceObserver = class {
 };
 var performance = globalThis.performance && "addEventListener" in globalThis.performance ? globalThis.performance : new Performance();
 
-// node_modules/@cloudflare/unenv-preset/dist/runtime/polyfill/performance.mjs
+// ../../node_modules/@cloudflare/unenv-preset/dist/runtime/polyfill/performance.mjs
 globalThis.performance = performance;
 globalThis.Performance = Performance;
 globalThis.PerformanceEntry = PerformanceEntry;
@@ -274,14 +274,14 @@ globalThis.PerformanceObserver = PerformanceObserver;
 globalThis.PerformanceObserverEntryList = PerformanceObserverEntryList;
 globalThis.PerformanceResourceTiming = PerformanceResourceTiming;
 
-// node_modules/unenv/dist/runtime/node/console.mjs
+// ../../node_modules/unenv/dist/runtime/node/console.mjs
 import { Writable } from "node:stream";
 
-// node_modules/unenv/dist/runtime/mock/noop.mjs
+// ../../node_modules/unenv/dist/runtime/mock/noop.mjs
 var noop_default = Object.assign(() => {
 }, { __unenv__: true });
 
-// node_modules/unenv/dist/runtime/node/console.mjs
+// ../../node_modules/unenv/dist/runtime/node/console.mjs
 var _console = globalThis.console;
 var _ignoreErrors = true;
 var _stderr = new Writable();
@@ -313,7 +313,7 @@ var _times = /* @__PURE__ */ new Map();
 var _stdoutErrorHandler = noop_default;
 var _stderrErrorHandler = noop_default;
 
-// node_modules/@cloudflare/unenv-preset/dist/runtime/node/console.mjs
+// ../../node_modules/@cloudflare/unenv-preset/dist/runtime/node/console.mjs
 var workerdConsole = globalThis["console"];
 var {
   assert,
@@ -354,10 +354,10 @@ Object.assign(workerdConsole, {
 });
 var console_default = workerdConsole;
 
-// node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-console
+// ../../node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-console
 globalThis.console = console_default;
 
-// node_modules/unenv/dist/runtime/node/internal/process/hrtime.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/process/hrtime.mjs
 var hrtime = /* @__PURE__ */ Object.assign(/* @__PURE__ */ __name(function hrtime2(startTime) {
   const now = Date.now();
   const seconds = Math.trunc(now / 1e3);
@@ -376,10 +376,10 @@ var hrtime = /* @__PURE__ */ Object.assign(/* @__PURE__ */ __name(function hrtim
   return BigInt(Date.now() * 1e6);
 }, "bigint") });
 
-// node_modules/unenv/dist/runtime/node/internal/process/process.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/process/process.mjs
 import { EventEmitter } from "node:events";
 
-// node_modules/unenv/dist/runtime/node/internal/tty/write-stream.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/tty/write-stream.mjs
 var WriteStream = class {
   static {
     __name(this, "WriteStream");
@@ -429,7 +429,7 @@ var WriteStream = class {
   }
 };
 
-// node_modules/unenv/dist/runtime/node/internal/tty/read-stream.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/tty/read-stream.mjs
 var ReadStream = class {
   static {
     __name(this, "ReadStream");
@@ -446,10 +446,10 @@ var ReadStream = class {
   }
 };
 
-// node_modules/unenv/dist/runtime/node/internal/process/node-version.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/process/node-version.mjs
 var NODE_VERSION = "22.14.0";
 
-// node_modules/unenv/dist/runtime/node/internal/process/process.mjs
+// ../../node_modules/unenv/dist/runtime/node/internal/process/process.mjs
 var Process = class _Process extends EventEmitter {
   static {
     __name(this, "Process");
@@ -684,7 +684,7 @@ var Process = class _Process extends EventEmitter {
   _linkedBinding = void 0;
 };
 
-// node_modules/@cloudflare/unenv-preset/dist/runtime/node/process.mjs
+// ../../node_modules/@cloudflare/unenv-preset/dist/runtime/node/process.mjs
 var globalProcess = globalThis["process"];
 var getBuiltinModule = globalProcess.getBuiltinModule;
 var { exit, platform, nextTick } = getBuiltinModule(
@@ -912,10 +912,10 @@ var _process = {
 };
 var process_default = _process;
 
-// node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-process
+// ../../node_modules/wrangler/_virtual_unenv_global_polyfill-@cloudflare-unenv-preset-node-process
 globalThis.process = process_default;
 
-// src/api.ts
+// api.ts
 async function runTask(env2) {
   const now = (/* @__PURE__ */ new Date()).toISOString();
   console.log(`[runTask] started @ ${now}`);
@@ -943,7 +943,7 @@ var api_default = {
   // ali service binding .fetch je sasvim OK i najjednostavniji.
 };
 
-// node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
+// ../../node_modules/wrangler/templates/middleware/middleware-ensure-req-body-drained.ts
 var drainBody = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
   try {
     return await middlewareCtx.next(request, env2);
@@ -961,7 +961,7 @@ var drainBody = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "drainBody");
 var middleware_ensure_req_body_drained_default = drainBody;
 
-// node_modules/wrangler/templates/middleware/middleware-scheduled.ts
+// ../../node_modules/wrangler/templates/middleware/middleware-scheduled.ts
 var scheduled = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx) => {
   const url = new URL(request.url);
   if (url.pathname === "/__scheduled") {
@@ -977,7 +977,7 @@ var scheduled = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "scheduled");
 var middleware_scheduled_default = scheduled;
 
-// node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
+// ../../node_modules/wrangler/templates/middleware/middleware-miniflare3-json-error.ts
 function reduceError(e) {
   return {
     name: e?.name,
@@ -1000,15 +1000,33 @@ var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-jjdejv/middleware-insertion-facade.js
+// wrangler-config:config:middleware/patch-console-prefix
+var prefix = "\x1B[34m[api-worker]\x1B[39m";
+
+// ../../node_modules/wrangler/templates/middleware/middleware-patch-console-prefix.ts
+globalThis.console = new Proxy(globalThis.console, {
+  get(target, p, receiver) {
+    if (p === "log" || p === "debug" || p === "info") {
+      return (...args) => Reflect.get(target, p, receiver)(prefix, ...args);
+    }
+    return Reflect.get(target, p, receiver);
+  }
+});
+var passthrough = /* @__PURE__ */ __name((request, env2, _ctx, middlewareCtx) => {
+  return middlewareCtx.next(request, env2);
+}, "passthrough");
+var middleware_patch_console_prefix_default = passthrough;
+
+// .wrangler/tmp/bundle-bbtNBs/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_scheduled_default,
-  middleware_miniflare3_json_error_default
+  middleware_miniflare3_json_error_default,
+  middleware_patch_console_prefix_default
 ];
 var middleware_insertion_facade_default = api_default;
 
-// node_modules/wrangler/templates/middleware/common.ts
+// ../../node_modules/wrangler/templates/middleware/common.ts
 var __facade_middleware__ = [];
 function __facade_register__(...args) {
   __facade_middleware__.push(...args.flat());
@@ -1033,7 +1051,7 @@ function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-jjdejv/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-bbtNBs/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
