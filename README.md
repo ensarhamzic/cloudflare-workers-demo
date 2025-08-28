@@ -9,18 +9,6 @@ The goal is to demonstrate how to connect Workers with **service bindings** and 
 
 ---
 
-## Structure
-
-.
-├── api/ # API worker
-│ ├── api.ts
-│ └── wrangler.toml
-├── cron/ # Cron worker
-│ ├── cron.ts
-│ └── wrangler.toml
-
----
-
 ## How it works
 
 - The **API Worker** exposes an endpoint `/run`.
