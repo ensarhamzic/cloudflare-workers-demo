@@ -26,25 +26,33 @@ The goal is to demonstrate how to connect Workers with **service bindings** and 
 
 1. Deploy the API Worker:
 
+```bash
 cd api
 npx wrangler deploy
+```
 
 2. Add secrets:
 
 # in the API worker folder
 
+```bash
 npx wrangler secret put WORKER_AUTH_KEY
+```
 
 3. Deploy the Cron Worker:
 
+```bash
 cd cron
 npx wrangler deploy
+```
 
 4. Add the same secret to the Cron Worker:
 
 # in the cron worker folder
 
+```bash
 npx wrangler secret put WORKER_AUTH_KEY
+```
 
 ---
 
@@ -52,16 +60,22 @@ npx wrangler secret put WORKER_AUTH_KEY
 
 - Run both workers locally with:
 
+```bash
 npx wrangler dev
+```
 
 - Manually trigger the cron worker in dev mode:
 
+```bash
 curl http://127.0.0.1:8787/cdn-cgi/handler/scheduled
+```
 
 - Call the API worker directly (with auth header):
 
+```bash
 curl -X POST http://127.0.0.1:8787/run \
  -H "Authorization: Bearer <WORKER_AUTH_KEY>"
+```
 
 ---
 
