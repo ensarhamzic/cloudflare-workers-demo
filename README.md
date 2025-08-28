@@ -33,8 +33,6 @@ npx wrangler deploy
 
 2. Add secrets:
 
-# in the API worker folder
-
 ```bash
 npx wrangler secret put WORKER_AUTH_KEY
 ```
@@ -47,8 +45,6 @@ npx wrangler deploy
 ```
 
 4. Add the same secret to the Cron Worker:
-
-# in the cron worker folder
 
 ```bash
 npx wrangler secret put WORKER_AUTH_KEY
